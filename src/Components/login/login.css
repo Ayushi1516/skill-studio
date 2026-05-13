@@ -1,0 +1,109 @@
+.login-container {
+  background: var(--bg-gradient);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.login-wrapper {
+  background-color: var(--card-bg);
+  padding: 2.5rem;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  box-shadow: var(--card-shadow);
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-wrapper .logo {
+  color: var(--text-color);
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.login-wrapper .title {
+  color: var(--card-text);
+  font-size: 16px;
+  margin-bottom: 1rem;
+}
+
+.login-wrapper form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.login-wrapper .input-group {
+  position: relative;
+}
+
+.login-wrapper .input-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #a0aec0;
+}
+
+.login-wrapper input {
+  padding: 15px 15px 15px 45px;
+  border: 1px solid #e2e8f0;
+  border-radius: 5px;
+  width: 100%;
+  outline: none;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  transition: border-color 0.2s ease-in-out;
+}
+
+.login-wrapper input:focus {
+  border-color: #6c63ff;
+}
+
+[data-theme="dark"] .login-wrapper input {
+  border-color: #4a5568;
+}
+
+.login-wrapper button {
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
+  padding: 12px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.login-wrapper button:hover {
+  background-color: var(--btn-hover-bg);
+}
+
+.login-wrapper p {
+  color: var(--card-text);
+  font-size: 14px;
+  margin-top: 1rem;
+}
+
+.login-wrapper p a {
+  color: var(--link-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-wrapper p a:hover {
+  text-decoration: underline;
+}
+
+.login-wrapper .error {
+  color: #e53e3e;
+  font-size: 14px;
+  text-align: center;
+  min-height: 20px;
+}

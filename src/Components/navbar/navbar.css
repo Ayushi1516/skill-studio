@@ -1,0 +1,7 @@
+.navbar-nav .nav-link.active {
+  font-weight: bold;
+  color: var(--btn-bg) !important;
+  border-bottom: 2px solid var(--btn-bg);
+  padding-bottom: 2px;
+  margin-bottom: -2px;
+}

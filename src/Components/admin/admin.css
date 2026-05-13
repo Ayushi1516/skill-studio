@@ -1,0 +1,120 @@
+.admin-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+  color: var(--text-color);
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.course-form {
+  background-color: var(--card-bg);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+  margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.course-form input, .course-form textarea {
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 5px;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  width: 100%;
+}
+
+.course-form textarea {
+  grid-column: span 2;
+  resize: vertical;
+}
+
+.form-actions {
+  grid-column: span 2;
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: opacity 0.2s;
+}
+
+.btn-primary {
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
+}
+
+.btn-danger {
+  background-color: #e53e3e;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #718096;
+  color: white;
+}
+
+.admin-course-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.admin-course-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--card-bg);
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+}
+
+.admin-course-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.admin-course-img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.admin-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .course-form {
+    grid-template-columns: 1fr;
+  }
+  .course-form textarea, .form-actions {
+    grid-column: span 1;
+  }
+  .admin-course-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .admin-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}

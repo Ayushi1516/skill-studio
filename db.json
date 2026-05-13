@@ -1,0 +1,76 @@
+{
+  "courses": [
+    {
+      "id": 1,
+      "name": "Introduction to React",
+      "imageUrl": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&auto=format&fit=crop",
+      "Duration": "4 weeks",
+      "level": "Beginner",
+      "price": "49.99",
+      "rating": "4.8",
+      "description": "Master the fundamentals of React, including components, hooks, and state management. Build modern web applications with ease.",
+      "chapters": [
+        { "id": 101, "title": "Understanding the Virtual DOM", "duration": "10:00" },
+        { "id": 102, "title": "Functional Components vs Class Components", "duration": "15:00" },
+        { "id": 103, "title": "Deep Dive into useEffect", "duration": "25:00" }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Advanced TypeScript Patterns",
+      "imageUrl": "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800&auto=format&fit=crop",
+      "Duration": "6 weeks",
+      "level": "Advanced",
+      "price": "79.99",
+      "rating": "4.9",
+      "description": "Unlock the full power of TypeScript. Learn about generics, mapped types, and conditional types to write safer and more scalable code.",
+      "chapters": [
+        { "id": 201, "title": "Generics and Constraints", "duration": "20:00" },
+        { "id": 202, "title": "Advanced Union and Intersection Types", "duration": "18:00" },
+        { "id": 203, "title": "Template Literal Types", "duration": "12:00" }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "UI/UX Design Essentials",
+      "imageUrl": "https://images.unsplash.com/photo-1586717791821-3f44a563dc4c?w=800&auto=format&fit=crop",
+      "Duration": "3 weeks",
+      "level": "Intermediate",
+      "price": "59.00",
+      "rating": "4.7",
+      "description": "Learn the principles of great design. This course covers wireframing, prototyping, and user testing using industry-standard tools.",
+      "chapters": [
+        { "id": 301, "title": "User Research Fundamentals", "duration": "30:00" },
+        { "id": 302, "title": "Creating High-Fidelity Wireframes", "duration": "45:00" }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "displayName": "Admin User",
+      "email": "admin@skillstudio.com",
+      "contact": "1234567890",
+      "password": "adminpassword",
+      "role": "admin"
+    },
+    {
+      "id": 2,
+      "displayName": "Jane Doe",
+      "email": "jane@example.com",
+      "contact": "0987654321",
+      "password": "password123",
+      "role": "user"
+    }
+  ],
+  "enrollments": [
+    {
+      "id": 1,
+      "userId": 2,
+      "courseId": 1,
+      "completedChapters": [
+        101
+      ]
+    }
+  ]
+}

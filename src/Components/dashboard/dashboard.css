@@ -1,0 +1,197 @@
+/* Main container for the entire dashboard page */
+.dashboard-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+  color: var(--text-color);
+  min-height: calc(100vh - 250px); /* Ensures the container takes up most of the viewport height, leaving space for a navbar and footer */
+}
+
+/* Main heading for the dashboard */
+.dashboard-container h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid var(--link-color); /* A decorative underline */
+  padding-bottom: 0.5rem;
+}
+
+/* Styling for links within paragraphs in the dashboard */
+.dashboard-container p a {
+  color: var(--link-color);
+  font-weight: 600;
+}
+
+/* Responsive adjustments for smaller screens (tablets and mobile) */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 1rem;
+    margin: 1rem auto;
+  }
+
+  .dashboard-container h1 {
+    font-size: 2rem; /* Reduce heading size on smaller screens */
+  }
+}
+
+.enrolled-courses-list {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.enrolled-courses-list {
+  display: grid;
+  gap: 1.5rem; /* Space between course items */
+}
+
+/* Individual course card item */
+.enrolled-course-item {
+  display: flex;
+  gap: 1.5rem;
+  background-color: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.2s ease-in-out;
+  align-items: flex-start; /* Align items to the top of the flex container */
+  flex-direction: column; /* Default layout is a vertical stack (for mobile) */
+}
+
+/* Add a subtle lift effect on hover */
+.enrolled-course-item:hover {
+  transform: translateY(-4px);
+}
+
+/* Course thumbnail image */
+.dashboard-course-img {
+  width: 100%; /* Full width on mobile */
+  height: 200px;
+  object-fit: cover; /* Ensures the image covers the area without distortion */
+  border-radius: 8px;
+}
+
+@media (min-width: 768px) {
+@media (min-width: 768px) {
+  /* Switch to a horizontal layout on larger screens */
+  .enrolled-course-item {
+    flex-direction: row;
+  }
+
+  /* Adjust image size for the horizontal layout */
+  .dashboard-course-img {
+    width: 200px;
+    height: 120px;
+    align-self: flex-start; /* Overrides parent's align-items, ensuring image stays at the top */
+  }
+}
+}
+
+/* Container for the course's textual information (title, description, etc.) */
+.enrolled-course-item .course-info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Allows this section to take up available space */
+  width: 100%;
+}
+
+/* Course title */
+.enrolled-course-item h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+}
+
+/* Course instructor/description paragraph */
+.enrolled-course-item p {
+  margin: 0 0 1rem 0;
+  color: var(--card-text);
+}
+
+/* "View Course" button styling */
+.view-course-btn {
+  background-color: var(--btn-bg);
+  color: var(--btn-text) !important; /* `!important` to override potential conflicts */
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  align-self: flex-start;
+  text-align: center;
+  align-self: flex-start; /* Aligns button to the left in the flex container */
+}
+
+.view-course-btn:hover {
+  background-color: var(--btn-hover-bg);
+  text-decoration: none;
+}
+
+/* === Progress Bar Styles === */
+.progress-section {
+  margin-bottom: 1.5rem;
+}
+
+/* Container for the progress label (e.g., "Completion: 75%") */
+.progress-label {
+  display: flex;
+  justify-content: space-between; /* Pushes "Completion" and "75%" to opposite ends */
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 10px;
+  background-color: #e2e8f0; /* A light gray for the unfilled portion */
+  border-radius: 5px;
+  overflow: hidden; /* Ensures the fill doesn't spill out of the rounded corners */
+}
+
+/* The filled portion of the progress bar, indicating progress */
+.progress-bar-fill {
+  height: 100%;
+  background-color: var(--btn-bg);
+  transition: width 0.3s ease; /* Animate the width change when progress updates */
+}
+
+/* === Chapter List Styles === */
+.chapter-list {
+  margin-bottom: 1.5rem;
+}
+
+/* Heading for the chapter list section */
+.chapter-list h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 0.25rem;
+}
+
+/* A single chapter item in the list */
+.chapter-item {
+  display: flex;
+  justify-content: space-between; /* Pushes chapter name and duration to opposite ends */
+  padding: 0.5rem 0;
+  font-size: 0.95rem;
+}
+
+/* The label for the checkbox, which contains the chapter name */
+.chapter-item label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+/* Style for a completed chapter (strikethrough text) */
+.chapter-item .completed {
+  text-decoration: line-through;
+  color: #a0aec0; /* A muted color for completed items */
+}
+
+/* The duration text for a chapter (e.g., "10min") */
+.chapter-duration {
+  color: #718096;
+  font-size: 0.85rem;
+}
