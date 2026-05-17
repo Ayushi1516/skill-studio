@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import skilllogo from "../../assets/logo.png";
 import "./Register.css";
 import toast from "react-hot-toast";
+import { API_URL } from "../../constants";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -11,14 +12,7 @@ export default function Register() {
   const onSubmit = async (e: any) => {
     const loadingToast = toast.loading("Creating your account...");
     try {
-      const checkUser = await fetch(`http://localhost:3001/users?email=${e.email}`);
-      const existingUsers = await checkUser.json();
-      if (existingUsers.length > 0) {
-        toast.dismiss(loadingToast);
-        toast.error("An account with this email already exists.");
-        return;
-      }
-      const res = await fetch('http://localhost:3001/users', {
+      const res = await fetch(`${API_URL}/users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

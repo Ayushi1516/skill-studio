@@ -12,6 +12,7 @@ const Home = lazy(() => import("../Components/home/home"));
 const Dashboard = lazy(() => import("../Components/dashboard/dashboard"));
 const Admin = lazy(() => import("../Components/admin/admin"));
 const CourseDetail = lazy(() => import("../Components/courseDetail/courseDetail"));
+const UserProfile = lazy(() => import("../Components/userProfile/userProfile"));
 
 // Wrap the component with the HOC
 const ProtectedAdmin = withAuth(Admin, "admin");
@@ -30,6 +31,7 @@ const AppRoutes = () => {
                     {currentUser?.role === "admin" && (
                         <Route path="admin" element={<ProtectedAdmin />} />
                     )}
+                    <Route path="profile" element={<UserProfile />} />
                 </Route>
                 <Route path="login" element={<Suspense fallback={<div className="page-container"><h1>Loading...</h1></div>}><Login /></Suspense>} />
                 <Route path="register" element={<Suspense fallback={<div className="page-container"><h1>Loading...</h1></div>}><Register /></Suspense>} />

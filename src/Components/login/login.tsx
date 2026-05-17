@@ -3,6 +3,7 @@ import "./Login.css";
 import { useAuth } from '../../context/AuthContext';
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
+import { API_URL } from "../../constants";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -12,12 +13,19 @@ export default function Login() {
   const onSubmit = async (data: any) => {
     const loadingToast = toast.loading("Logging in...");
     try {
-      const res = await fetch(`http://localhost:3001/users?email=${data.email}&password=${data.password}`);
+      const res = await fetch(`${API_URL}/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: data.email, password: data.password }),
+      });
+      toast.dismiss(loadingToast);
       const users = await res.json();
       toast.dismiss(loadingToast);
-      if (users.length > 0) {
-        authLogin(users[0]);
-        toast.success(`Welcome back, ${users[0].displayName}!`);
+      if (res.ok && users.email === data.email) {
+        authLogin(users);
+        toast.success(`Welcome back, ${users.displayName}!`);
         navigate('/');
       } else {
         toast.error("Invalid email or password.");

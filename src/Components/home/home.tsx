@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import CourseCard from "../coursecard/courseCard";
 import "./Home.css";
 import type { CourseSummary } from "../../types/interfaces";
+import { API_URL } from "../../constants";
 
 export default function Home() {
   const [courses, setCourses] = useState<CourseSummary[]>([]); // for setting course data
@@ -12,7 +13,7 @@ export default function Home() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await fetch('http://localhost:3001/courses');
+        const response = await fetch(`${API_URL}/courses`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }

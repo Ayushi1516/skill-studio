@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import { useAuth } from '../../context/AuthContext';
 import type { Course } from '../../types/interfaces';
 import { useForm } from 'react-hook-form';
+import { API_URL } from '../../constants';
 
 const initialCourseState = {
   name: '',
@@ -20,7 +21,7 @@ export default function Admin() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [isEditing, setIsEditing] = useState<number | null>(null);
   const { currentUser } = useAuth();
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<Omit<Course, 'id'>>({ defaultValues: initialCourseState });
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<Omit<Course, 'courseId'>>({ defaultValues: initialCourseState });
 
   useEffect(() => {
     console.log(currentUser);
@@ -29,7 +30,7 @@ export default function Admin() {
 
   const fetchCourses = async () => {
     try {
-      const res = await fetch('http://localhost:3001/courses');
+      const res = await fetch(`${API_URL}/courses`);
       const data = await res.json();
       setCourses(data);
     } catch (error) {
@@ -37,10 +38,10 @@ export default function Admin() {
     }
   };
 
-  const onSubmit = async (data: Omit<Course, 'id'>) => {
+  const onSubmit = async (data: Omit<Course, 'courseId'>) => {
     if (isEditing) {
       try {
-        const res = await fetch(`http://localhost:3001/courses/${isEditing}`, {
+        const res = await fetch(`${API_URL}/courses/${data?.courseId}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
@@ -55,7 +56,7 @@ export default function Admin() {
       }
     } else {
       try {
-        const res = await fetch('http://localhost:3001/courses', {
+        const res = await fetch(`${API_URL}/courses`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
@@ -72,9 +73,8 @@ export default function Admin() {
   };
 
   const handleEdit = (course: Course) => {
-    setIsEditing(course.id);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { id, ...rest } = course;
+    setIsEditing(course.courseId);
+    const { ...rest } = course;
     reset(rest);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -83,7 +83,7 @@ export default function Admin() {
     if (!window.confirm("Are you sure you want to delete this course?")) return;
 
     try {
-      const res = await fetch(`http://localhost:3001/courses/${id}`, {
+      const res = await fetch(`${API_URL}/courses/${id}`, {
         method: 'DELETE'
       });
       if (res.ok) {
@@ -160,7 +160,7 @@ export default function Admin() {
         <div className="admin-course-list">
           <h4>Existing Courses</h4>
           {courses.map((course: Course) => (
-            <div key={course.id} className="admin-course-item">
+            <div key={course.courseId} className="admin-course-item">
               <div className="admin-course-info">
                 <img src={course.imageUrl} alt={course.name} className="admin-course-img" />
                 <div>
@@ -170,7 +170,7 @@ export default function Admin() {
               </div>
               <div className="admin-actions">
                 <button className="btn btn-secondary" onClick={() => handleEdit(course)}>Edit</button>
-                <button className="btn btn-danger" onClick={() => handleDelete(course.id)}>Delete</button>
+                <button className="btn btn-danger" onClick={() => handleDelete(course.courseId)}>Delete</button>
               </div>
             </div>
           ))}

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import './Dashboard.css';
 import toast from 'react-hot-toast';
 import type { Chapter, Enrollment } from '../../types/interfaces';
+import { API_URL } from '../../constants';
 
 const ChapterItem = ({
   chapter,
@@ -89,7 +90,7 @@ const EnrolledCourseCard = ({
         <ProgressBar progress={progress}/>
         <ChapterList chapters={course.chapters} completedChapters={completedChapters}
          onToggleChapter={(chapterId: number) => onToggleChapter(enrollmentId, chapterId)}/>
-        <Link to={`/course/${course.id}`} className='view-course-btn'>Continue Learning</Link>
+        <Link to={`/course/${course.courseId}`} className='view-course-btn'>Continue Learning</Link>
       </div>
     </div>)
  }
@@ -105,7 +106,7 @@ export default function Dashboard() {
     if (currentUser) {
       const fetchedEnrolledCourses = async () => {
         try {
-          const res = await fetch(`http://localhost:3001/enrollments?userId=${currentUser.id}&_expand=course`);
+          const res = await fetch(`${API_URL}/enrollments?userId=${currentUser.userId}`);
           const data = await res.json();
           const enrollmentsWithData = data.map((e: Enrollment) => ({
              ...e,
@@ -152,7 +153,7 @@ export default function Dashboard() {
 
     try{
       // Send the update to the server
-      await fetch(`http://localhost:3001/enrollments/${enrollmentId}`, {
+      await fetch(`${API_URL}/enrollments/${enrollmentId}`, {
         method: 'PATCH', //update
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({completedChapters: newCompletedChapters})

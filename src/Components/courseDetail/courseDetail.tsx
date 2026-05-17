@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import './CourseDetail.css';
 import { useAuth } from '../../context/AuthContext';
 import type { Course } from '../../types/interfaces';
+import { API_URL } from '../../constants';
 
 export default function CourseDetail() {
   const { courseId } = useParams<{ courseId: string }>();
@@ -17,7 +18,7 @@ export default function CourseDetail() {
     if (currentUser && course) {
       const checkEnrollment = async () => {
         try {
-          const res = await fetch(`http://localhost:3001/enrollments?userId=${currentUser.id}&courseId=${course.id}`);
+          const res = await fetch(`${API_URL}/enrollments?userId=${currentUser.userId}&courseId=${course.courseId}`);
           const data = await res.json();
           if (data.length > 0) {
             setIsEnrolled(true);
@@ -38,12 +39,12 @@ export default function CourseDetail() {
     if (!course || isEnrolled) return;
 
     try {
-      const res = await fetch('http://localhost:3001/enrollments', {
+      const res = await fetch(`${API_URL}/enrollments`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          userId: currentUser.id,
-          courseId: course.id,
+          userId: currentUser.userId,
+          courseId: course.courseId,
           completedChapters: []
         }),
       });
@@ -56,7 +57,7 @@ export default function CourseDetail() {
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/courses/${courseId}`);
+        const response = await fetch(`${API_URL}/courses/${courseId}`);
         if (!response.ok) {
           throw new Error('Course not found');
         }

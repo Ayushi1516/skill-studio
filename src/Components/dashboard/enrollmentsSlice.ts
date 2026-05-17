@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/tool
 import type { Enrollment } from '../../types/interfaces';
 import type { RootState } from './store';
 import toast from 'react-hot-toast';
+import { API_URL } from '../../constants';
 
 interface EnrollmentsState {
   items: Enrollment[];
@@ -19,7 +20,7 @@ export const fetchEnrollments = createAsyncThunk(
   'enrollments/fetchEnrollments',
   async (userId: number, { rejectWithValue }) => {
     try {
-      const response = await fetch(`http://localhost:3001/enrollments?userId=${userId}&_expand=course`);
+      const response = await fetch(`${API_URL}/enrollments?userId=${userId}`);
       if (!response.ok) throw new Error('Server error');
       const data: Enrollment[] = await response.json();
       return data.map((e: Enrollment) => ({ ...e, completedChapters: e.completedChapters || [] }));
@@ -49,7 +50,7 @@ export const toggleChapter = createAsyncThunk(
     dispatch(enrollmentsSlice.actions.updateEnrollment({ id: enrollmentId, changes: { completedChapters: newCompletedChapters } }));
 
     try {
-      const response = await fetch(`http://localhost:3001/enrollments/${enrollmentId}`, {
+      const response = await fetch(`${API_URL}/enrollments/${enrollmentId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ completedChapters: newCompletedChapters }),

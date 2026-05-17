@@ -42,7 +42,7 @@ export default function NavbarComp() {
             </Nav.Link>
             {currentUser ? (
               <>
-                <Nav.Link as="span" className="navbar-text">👤 {currentUser.displayName}</Nav.Link>
+                <Nav.Link as={NavLink} to="/profile" className="navbar-text">👤 {currentUser.displayName}</Nav.Link>
                 <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
               </>
             ) : (

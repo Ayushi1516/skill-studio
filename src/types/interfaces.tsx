@@ -7,7 +7,7 @@ export interface Chapter {
 
 // Full course details, used in CourseDetail and Admin
 export interface Course {
-    id: number;
+    courseId: number;
     name: string;
     imageUrl: string;
     Duration: string;
@@ -22,7 +22,7 @@ export interface Course {
 export type CourseSummary = Omit<Course, 'description' | 'chapters'>;
 
 export interface User {
-    id: number;
+    userId: number;
     displayName: string;
     email: string;
     contact: string;

@@ -1,12 +1,12 @@
 import './CourseCard.css';
 import { Link } from 'react-router-dom';
-import type { CourseSummary } from '../../types/interfaces';
+import type { Course } from '../../types/interfaces';
 
 interface CourseCardProps {
-  courseData: CourseSummary[];
+  courseData: Course[];
 }
  interface CardProps {
-  course: CourseSummary;
+  course: Course;
 }
 
 export default function CourseCard({ courseData }: CourseCardProps) {
@@ -16,7 +16,7 @@ export default function CourseCard({ courseData }: CourseCardProps) {
     return (
       <div className="gallery">
         {courseData.map((course) => (
-          <Card key={course.id} course={course} />
+          <Card key={course.courseId} course={course} />
         ))}
       </div>
     );
@@ -24,7 +24,7 @@ export default function CourseCard({ courseData }: CourseCardProps) {
 
 function Card({ course }: CardProps) {
   return (
-    <Link to={`/course/${course.id}`} className="card-link">
+    <Link to={`/course/${course.courseId}`} className="card-link">
       <div className="card">
         <img className="avatar" src={course.imageUrl} alt={course.name} />
         <div className="card-content">

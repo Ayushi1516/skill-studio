@@ -5,7 +5,7 @@ export interface Chapter {
 }
 
 export interface Course {
-  id: number;
+  courseId: number;
   name: string;
   imageUrl: string;
   Duration: string;
@@ -17,7 +17,7 @@ export interface Course {
 }
 
 export interface User {
-  id: number;
+  userId: number;
   displayName: string;
   email: string;
   contact: string;

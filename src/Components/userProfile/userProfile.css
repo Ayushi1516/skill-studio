@@ -1,0 +1,45 @@
+.user-profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 100px); /* Adjust based on your header height */
+    padding: 2rem;
+  text-align: center;
+  background: var(--bg-gradient);
+  min-height: 100vh;
+  color: var(--text-color);
+}
+
+.user-profile-container {
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    padding: 3rem;
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid #eef0f2;
+}
+
+.user-profile-container:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.user-profile-container h2 {
+    margin-bottom: 1.5rem;
+    color: #2d3436;
+    font-size: 2rem;
+    font-weight: 700;
+    border-bottom: 2px solid #00cec9;
+    display: inline-block;
+    padding-bottom: 0.5rem;
+}
+
+.user-profile-container p {
+    color: #636e72;
+    margin: 0.8rem 0;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    word-break: break-all;
+}
