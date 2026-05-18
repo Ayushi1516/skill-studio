@@ -7,17 +7,29 @@ import { API_URL } from "../../constants";
 
 export default function Register() {
   const navigate = useNavigate();
-  const { handleSubmit, register, formState: { errors } } = useForm();
+  const { handleSubmit, register, watch, formState: { errors } } = useForm();
+
+  // Watch the instructor checkbox to conditionally show the qualification field
+  const isInstructor = watch("isInstructor", false);
 
   const onSubmit = async (e: any) => {
     const loadingToast = toast.loading("Creating your account...");
+    const role = e.isInstructor ? 'instructor' : 'user';
+
     try {
       const res = await fetch(`${API_URL}/users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ displayName: e.displayName, email: e.email, contact: e.contact, password: e.password, role: 'user' }),
+        body: JSON.stringify({ 
+          displayName: e.displayName, 
+          email: e.email, 
+          contact: e.contact, 
+          password: e.password, 
+          role,
+          ...(role === 'instructor' && { qualification: e.qualification })
+        }),
       });
 
       toast.dismiss(loadingToast);
@@ -84,51 +96,26 @@ export default function Register() {
             {String(errors.password.message)}
           </span>
         )}</div>
+
+        <div className="role-selection">
+          <label>
+            <input type="checkbox" {...register("isInstructor")} />
+            Instructor
+          </label>
+        </div>
+
+        {isInstructor && (
+          <div className="qualification-container">
+            <input type="text" placeholder="Qualification" {...register("qualification", { required: 'Qualification is Required' })} />
+            {errors.qualification && (
+              <span className="error">{String(errors.qualification.message)}</span>
+            )}
+          </div>
+        )}
+
         <button type="submit">Sign up</button>
       </form>
       <p>You do have an account? <Link to="/login">Login</Link></p>
     </div>
   </div>)
 }
-
-/* const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const displayName = formData.get("displayName") as string;
-    const email = formData.get("email") as string;
-    const contact = formData.get("contact") as string;
-    const password = formData.get("password") as string;
-
-    if (!displayName || !email || !password) {
-      toast.error("Please fill in all required fields.");
-      return;
-    }
-    if (password.length < 6) {
-      toast.error("Password must be at least 6 characters long.");
-      return;
-    }
-  }; */
-
-/* return (
-    <div className="form-container">
-      <div className="form-wrapper">
-        <span className="logo"><img
-          src={skilllogo}
-          alt="Sample Brand Logo"
-          width="30"
-          className="align-top d-inline-block"
-          height="30"
-          style={{ borderRadius: "50%" }}
-        /> SkillStudio</span>
-        <span className="title">Register</span>
-        <form onSubmit={handleSubmit}>
-          <input required type="text" name="displayName" placeholder="Display Name" />
-          <input required type="email" name="email" placeholder="Email" />
-          <input required type="text" name="contact" placeholder="Contact" />
-          <input required type="password" name="password" placeholder="Password" />
-          <button>Sign up</button>
-        </form>
-        <p>You do have an account? <Link to="/login">Login</Link></p>
-      </div>
-    </div>
-  ); */

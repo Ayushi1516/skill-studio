@@ -18,7 +18,11 @@ export default function CourseDetail() {
     if (currentUser && course) {
       const checkEnrollment = async () => {
         try {
-          const res = await fetch(`${API_URL}/enrollments?userId=${currentUser.userId}&courseId=${course.courseId}`);
+          const res = await fetch(`${API_URL}/enrollments?userId=${currentUser.userId}&courseId=${course.courseId}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json', Authorization: `Bearer ${currentUser?.token}`}
+          });
           const data = await res.json();
           if (data.length > 0) {
             setIsEnrolled(true);
@@ -41,7 +45,7 @@ export default function CourseDetail() {
     try {
       const res = await fetch(`${API_URL}/enrollments`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' , 'Authorization': `Bearer ${currentUser?.token}`},
         body: JSON.stringify({
           userId: currentUser.userId,
           courseId: course.courseId,

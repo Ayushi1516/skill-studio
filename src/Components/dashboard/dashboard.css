@@ -1,10 +1,50 @@
+/* Layout Wrapper */
+.dashboard-layout {
+  display: flex;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+/* Sidenav Styles */
+.sidenav {
+  width: 250px;
+  background-color: var(--card-bg);
+  border-right: 1px solid #e2e8f0;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sidenav-item {
+  width: 100%;
+  text-align: left;
+  padding: 12px 15px;
+  border: none;
+  background: none;
+  border-radius: 8px;
+  color: var(--text-color);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sidenav-item:hover {
+  background-color: #f1f5f9;
+  color: var(--link-color);
+}
+
+.sidenav-item.active {
+  background-color: var(--btn-bg);
+  color: white;
+}
+
 /* Main container for the entire dashboard page */
 .dashboard-container {
-  max-width: 1200px;
-  margin: 2rem auto;
+  flex: 1;
   padding: 2rem;
   color: var(--text-color);
-  min-height: calc(100vh - 250px); /* Ensures the container takes up most of the viewport height, leaving space for a navbar and footer */
 }
 
 /* Main heading for the dashboard */
@@ -24,6 +64,18 @@
 
 /* Responsive adjustments for smaller screens (tablets and mobile) */
 @media (max-width: 768px) {
+  .dashboard-layout {
+    flex-direction: column;
+  }
+  
+  .sidenav {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #e2e8f0;
+    flex-direction: row;
+    overflow-x: auto;
+  }
+
   .dashboard-container {
     padding: 1rem;
     margin: 1rem auto;

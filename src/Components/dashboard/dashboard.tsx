@@ -39,9 +39,9 @@ const ChapterList = ({
 }) => (
   <div className="chapter-list">
     <h3>Lessons</h3>
-    {chapters?.map((chapter) => (
+    {chapters?.map((chapter, index) => (
       <ChapterItem
-        key={chapter.id}
+        key={chapter.id || index}
         chapter={chapter}
         isCompleted={completedChapters.includes(chapter.id)}
         onToggle={() => onToggleChapter(chapter.id)}
@@ -99,6 +99,7 @@ export default function Dashboard() {
   const { currentUser } = useAuth();
   const [enrollments, setEnrollments] = useState<Enrollment[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<'courses' | 'help' | 'settings'>('courses');
   const [err, setError] = useState(false);
 
   // Fetch enrolled courses when the component mounts or user changes
@@ -106,7 +107,14 @@ export default function Dashboard() {
     if (currentUser) {
       const fetchedEnrolledCourses = async () => {
         try {
-          const res = await fetch(`${API_URL}/enrollments?userId=${currentUser.userId}`);
+          const res = await fetch(`${API_URL}/enrollments?userId=${currentUser.userId}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              // This is the crucial part: sending the JWT
+              'Authorization': `Bearer ${currentUser?.token}` 
+            },
+    });
           const data = await res.json();
           const enrollmentsWithData = data.map((e: Enrollment) => ({
              ...e,
@@ -155,8 +163,12 @@ export default function Dashboard() {
       // Send the update to the server
       await fetch(`${API_URL}/enrollments/${enrollmentId}`, {
         method: 'PATCH', //update
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({completedChapters: newCompletedChapters})
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${currentUser?.token}`
+        },
+        body: JSON.stringify({completedChapters: newCompletedChapters}),
+
       });
     } catch(error) {
       // If the server update fails, roll back the UI change and notify the user
@@ -166,17 +178,70 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="dashboard-container">
-      <h3>My Courses</h3>
-      {enrollments.length > 0 ? (
-        <div className="enrolled-courses-list">
-          {enrollments.map(enrollment => (
-            <EnrolledCourseCard key={enrollment.id} enrollment={enrollment} onToggleChapter={handleToggleChapter} />
-          ))}
-        </div>
-      ) : (
-        <p>You have not enrolled in any courses yet. <Link to="/">Browse courses</Link> to get started.</p>
-      )}
+    <div className="dashboard-layout">
+      <aside className="sidenav">
+        <nav>
+          <button 
+            className={`sidenav-item ${activeTab === 'courses' ? 'active' : ''}`} 
+            onClick={() => setActiveTab('courses')}
+          >
+            My Courses
+          </button>
+          <button 
+            className={`sidenav-item ${activeTab === 'help' ? 'active' : ''}`} 
+            onClick={() => setActiveTab('help')}
+          >
+            Help
+          </button>
+          <button 
+            className={`sidenav-item ${activeTab === 'settings' ? 'active' : ''}`} 
+            onClick={() => setActiveTab('settings')}
+          >
+            Settings
+          </button>
+        </nav>
+      </aside>
+
+      <main className="dashboard-container">
+        {activeTab === 'courses' && (
+          <>
+            <h3>My Courses</h3>
+            {enrollments.length > 0 ? (
+              <div className="enrolled-courses-list">
+                {enrollments.map((enrollment, index) => (
+                  <EnrolledCourseCard key={enrollment.id || index} enrollment={enrollment} onToggleChapter={handleToggleChapter} />
+                ))}
+              </div>
+            ) : (
+              <p>You have not enrolled in any courses yet. <Link to="/">Browse courses</Link> to get started.</p>
+            )}
+          </>
+        )}
+
+        {activeTab === 'help' && (
+          <div className="help-section">
+            <h3>Help & Support</h3>
+            <p>Need assistance? Contact our support team at support@skillstudio.com</p>
+            <ul>
+              <li>Frequently Asked Questions</li>
+              <li>Platform Tutorial</li>
+              <li>Community Forum</li>
+            </ul>
+          </div>
+        )}
+
+        {activeTab === 'settings' && (
+          <div className="settings-section">
+            <h3>Account Settings</h3>
+            <p>Manage your profile and preferences.</p>
+            <div className="settings-placeholder">
+              <p>Email: {currentUser.email}</p>
+              <p>DisplayName: {currentUser.displayName}</p>
+              <button className="view-course-btn">Update Profile</button>
+            </div>
+          </div>
+        )}
+      </main>
     </div>
   );
 }

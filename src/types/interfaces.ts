@@ -23,6 +23,7 @@ export interface User {
   contact: string;
   password?: string;
   role: 'user' | 'admin';
+  token?: string; // JWT token for authentication
 }
 
 export interface Enrollment {

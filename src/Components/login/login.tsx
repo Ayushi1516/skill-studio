@@ -21,11 +21,11 @@ export default function Login() {
         body: JSON.stringify({ email: data.email, password: data.password }),
       });
       toast.dismiss(loadingToast);
-      const users = await res.json();
-      toast.dismiss(loadingToast);
-      if (res.ok && users.email === data.email) {
-        authLogin(users);
-        toast.success(`Welcome back, ${users.displayName}!`);
+      const userData = await res.json();
+      
+      if (res.ok && userData.token) {
+        authLogin(userData);
+        toast.success(`Welcome back, ${userData.displayName}!`);
         navigate('/');
       } else {
         toast.error("Invalid email or password.");
