@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+// @ts-ignore: CSS module declarations not available in this project
 import './Dashboard.css';
 import SettingsTab from './SettingsTab';
 import HelpTab from './HelpTab';

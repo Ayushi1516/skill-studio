@@ -98,7 +98,7 @@ export default function CourseDetail() {
             <h1>{course.name}</h1>
             <p className="course-meta">Level: {course.level} | Duration: {course.Duration}</p>
             <p className="course-price">${course.price}</p>
-            <button className="enroll-button" onClick={handleEnroll} disabled={isEnrolled}>
+            <button className="enroll-button" onClick={handleEnroll} disabled={currentUser?.role == 'instructor' || isEnrolled}>
               {isEnrolled ? 'Enrolled' : 'Enroll Now'}
             </button>
           </div>

@@ -1,7 +1,8 @@
 export interface Chapter {
-  id: number;
+  id?: number;
   title: string;
   duration: string;
+  videoUrl: string;
 }
 
 export interface Course {
@@ -22,7 +23,7 @@ export interface User {
   email: string;
   contact: string;
   password?: string;
-  role: 'user' | 'admin';
+  role: 'user' | 'admin' | 'instructor';
   token?: string; // JWT token for authentication
 }
 

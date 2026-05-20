@@ -2,7 +2,7 @@
 .dashboard-layout {
   display: flex;
   max-width: 1400px;
-  margin: 0 auto;
+  margin: auto auto auto 0 ;
   min-height: 100vh;
 }
 
@@ -10,7 +10,8 @@
 .sidenav {
   width: 250px;
   background-color: var(--card-bg);
-  border-right: 1px solid #e2e8f0;
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.02);
   padding: 2rem 1rem;
   display: flex;
   flex-direction: column;
@@ -24,20 +25,22 @@
   border: none;
   background: none;
   border-radius: 8px;
-  color: var(--text-color);
+  color: #64748b;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
+  margin-bottom: 0.25rem;
 }
 
 .sidenav-item:hover {
-  background-color: #f1f5f9;
+  background-color: #f8fafc;
   color: var(--link-color);
 }
 
 .sidenav-item.active {
   background-color: var(--btn-bg);
   color: white;
+  box-shadow: 0 4px 12px rgba(49, 130, 206, 0.3);
 }
 
 /* Main container for the entire dashboard page */
@@ -52,8 +55,8 @@
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 2rem;
-  border-bottom: 2px solid var(--link-color); /* A decorative underline */
-  padding-bottom: 0.5rem;
+  color: #1e293b;
+  letter-spacing: -0.025em;
 }
 
 /* Styling for links within paragraphs in the dashboard */
@@ -123,6 +126,7 @@
 }
 
 @media (min-width: 768px) {
+@media (min-width: 768px) {
   /* Switch to a horizontal layout on larger screens */
   .enrolled-course-item {
     flex-direction: row;
@@ -184,7 +188,7 @@
 /* Container for the progress label (e.g., "Completion: 75%") */
 .progress-label {
   display: flex;
-  justify-content: space-between; /* Pushes "Completion" and "75%" to opposite ends */
+  justify-content: space-between;
   margin-bottom: 0.5rem;
   font-size: 0.9rem;
   font-weight: 600;
@@ -193,16 +197,16 @@
 .progress-bar-container {
   width: 100%;
   height: 10px;
-  background-color: #e2e8f0; /* A light gray for the unfilled portion */
+  background-color: #f1f5f9;
   border-radius: 5px;
-  overflow: hidden; /* Ensures the fill doesn't spill out of the rounded corners */
+  overflow: hidden;
 }
 
 /* The filled portion of the progress bar, indicating progress */
 .progress-bar-fill {
   height: 100%;
-  background-color: var(--btn-bg, #3182ce); /* Fallback to blue if variable is missing */
-  transition: width 0.3s ease; /* Animate the width change when progress updates */
+  background: linear-gradient(90deg, #3182ce, #63b3ed);
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* === Chapter List Styles === */
@@ -232,17 +236,18 @@
   align-items: center;
   gap: 0.5rem;
   cursor: pointer;
+  user-select: none;
 }
 
 /* Style for a completed chapter (strikethrough text) */
 .chapter-item .completed {
   text-decoration: line-through;
-  color: #a0aec0; /* A muted color for completed items */
+  color: #94a3b8;
 }
 
 /* The duration text for a chapter (e.g., "10min") */
 .chapter-duration {
-  color: #718096;
+  color: #94a3b8;
   font-size: 0.85rem;
 }
 

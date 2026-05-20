@@ -26,8 +26,15 @@ const SettingsTab =() => {
         }
         }, [currentUser, reset]);
 
+        useEffect(() => {
+          if (!currentUser) {
+            setProfileUpdating(false);
+          }
+        }, [currentUser]);
+
     const updateProfile = async (data: User) => {
         if (!currentUser) return;
+        setProfileUpdating(true);
         try {
           const res = await fetch(`${API_URL}/users/${currentUser.userId}`, {
             method: 'PUT',
@@ -44,13 +51,14 @@ const SettingsTab =() => {
             // Update context with merged data to preserve the session token.
             login({ ...currentUser, ...responseData.user });
             toast.success("Profile updated successfully!");
-            setProfileUpdating(false);
           } else {
             const errorData = await res.json();
             toast.error(errorData.message || "Failed to update profile.");
           }
         } catch (error) {
           toast.error("Failed to update profile. Please try again.");
+        } finally {
+          setProfileUpdating(false);
         }
       };
 
@@ -89,7 +97,9 @@ const SettingsTab =() => {
                   {errors.contact && <span className="error">{String(errors.contact.message)}</span>}
 
                 </div>
-                <button type="submit" className="btn btn-primary">Save Changes</button>
+                <button type="submit" className="btn btn-primary">
+                  Save Changes
+                </button>
               </form>
             ) : (
               <div className="settings-placeholder">
