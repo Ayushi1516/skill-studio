@@ -309,3 +309,76 @@
   width: auto;
   min-width: 150px;
 }
+
+/* User List Table Styles */
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.user-table th, 
+.user-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.user-table th {
+  background-color: #f7fafc;
+  color: #4a5568;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.user-table tr:hover {
+  background-color: #f8fafc;
+}
+
+.user-table tr:last-child td {
+  border-bottom: none;
+}
+
+.section-title {
+  margin-bottom: 1rem;
+  color: #2d3748;
+}
+
+/* Search Bar Styles */
+.user-list .search-container {
+  position: relative;
+  margin-bottom: 1.5rem;
+  max-width: 400px;
+}
+
+.user-list .search-bar {
+  width: 100%;
+  padding: 10px 15px 10px 40px;
+  border: 1px solid #cbd5e0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  background-color: #ffffff;
+}
+
+.user-list .search-bar:focus {
+  outline: none;
+  border-color: var(--link-color);
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+.user-list .search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  color: #a0aec0;
+  pointer-events: none;
+}
