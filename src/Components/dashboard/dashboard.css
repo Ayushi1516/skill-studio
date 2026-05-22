@@ -2,7 +2,7 @@
 .dashboard-layout {
   display: flex;
   max-width: 1400px;
-  margin: 0 auto;
+  margin: auto auto auto 0 ;
   min-height: 100vh;
 }
 
@@ -10,7 +10,8 @@
 .sidenav {
   width: 250px;
   background-color: var(--card-bg);
-  border-right: 1px solid #e2e8f0;
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.02);
   padding: 2rem 1rem;
   display: flex;
   flex-direction: column;
@@ -24,20 +25,22 @@
   border: none;
   background: none;
   border-radius: 8px;
-  color: var(--text-color);
+  color: #64748b;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
+  margin-bottom: 0.25rem;
 }
 
 .sidenav-item:hover {
-  background-color: #f1f5f9;
+  background-color: #f8fafc;
   color: var(--link-color);
 }
 
 .sidenav-item.active {
   background-color: var(--btn-bg);
   color: white;
+  box-shadow: 0 4px 12px rgba(49, 130, 206, 0.3);
 }
 
 /* Main container for the entire dashboard page */
@@ -52,8 +55,8 @@
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 2rem;
-  border-bottom: 2px solid var(--link-color); /* A decorative underline */
-  padding-bottom: 0.5rem;
+  color: #1e293b;
+  letter-spacing: -0.025em;
 }
 
 /* Styling for links within paragraphs in the dashboard */
@@ -136,7 +139,6 @@
     align-self: flex-start; /* Overrides parent's align-items, ensuring image stays at the top */
   }
 }
-}
 
 /* Container for the course's textual information (title, description, etc.) */
 .enrolled-course-item .course-info {
@@ -186,7 +188,7 @@
 /* Container for the progress label (e.g., "Completion: 75%") */
 .progress-label {
   display: flex;
-  justify-content: space-between; /* Pushes "Completion" and "75%" to opposite ends */
+  justify-content: space-between;
   margin-bottom: 0.5rem;
   font-size: 0.9rem;
   font-weight: 600;
@@ -195,16 +197,16 @@
 .progress-bar-container {
   width: 100%;
   height: 10px;
-  background-color: #e2e8f0; /* A light gray for the unfilled portion */
+  background-color: #f1f5f9;
   border-radius: 5px;
-  overflow: hidden; /* Ensures the fill doesn't spill out of the rounded corners */
+  overflow: hidden;
 }
 
 /* The filled portion of the progress bar, indicating progress */
 .progress-bar-fill {
   height: 100%;
-  background-color: var(--btn-bg);
-  transition: width 0.3s ease; /* Animate the width change when progress updates */
+  background: linear-gradient(90deg, #3182ce, #63b3ed);
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* === Chapter List Styles === */
@@ -234,16 +236,149 @@
   align-items: center;
   gap: 0.5rem;
   cursor: pointer;
+  user-select: none;
 }
 
 /* Style for a completed chapter (strikethrough text) */
 .chapter-item .completed {
   text-decoration: line-through;
-  color: #a0aec0; /* A muted color for completed items */
+  color: #94a3b8;
 }
 
 /* The duration text for a chapter (e.g., "10min") */
 .chapter-duration {
-  color: #718096;
+  color: #94a3b8;
   font-size: 0.85rem;
+}
+
+.dashboard-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 1rem;
+}
+
+
+/* === Settings & Profile Form Styles === */
+.settings-section form {
+  max-width: 500px;
+  margin-top: 1.5rem;
+  background-color: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-color);
+}
+
+.form-group input {
+  padding: 0.75rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: white;
+  transition: all 0.2s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--link-color);
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+.error {
+  color: #e53e3e;
+  font-size: 0.8rem;
+  margin-top: 0.4rem;
+}
+
+.settings-section .btn-primary {
+  width: auto;
+  min-width: 150px;
+}
+
+/* User List Table Styles */
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.user-table th, 
+.user-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.user-table th {
+  background-color: #f7fafc;
+  color: #4a5568;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.user-table tr:hover {
+  background-color: #f8fafc;
+}
+
+.user-table tr:last-child td {
+  border-bottom: none;
+}
+
+.section-title {
+  margin-bottom: 1rem;
+  color: #2d3748;
+}
+
+/* Search Bar Styles */
+.user-list .search-container {
+  position: relative;
+  margin-bottom: 1.5rem;
+  max-width: 400px;
+}
+
+.user-list .search-bar {
+  width: 100%;
+  padding: 10px 15px 10px 40px;
+  border: 1px solid #cbd5e0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  background-color: #ffffff;
+}
+
+.user-list .search-bar:focus {
+  outline: none;
+  border-color: var(--link-color);
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+.user-list .search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  color: #a0aec0;
+  pointer-events: none;
 }
