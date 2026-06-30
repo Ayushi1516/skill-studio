@@ -15,25 +15,42 @@ export default function CourseDetail() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (currentUser && course) {
-      const checkEnrollment = async () => {
-        try {
-          const res = await fetch(`${API_URL}/enrollments?userId=${currentUser.userId}&courseId=${course.courseId}`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json', Authorization: `Bearer ${currentUser?.token}`}
-          });
-          const data = await res.json();
-          if (data.length > 0) {
-            setIsEnrolled(true);
-          }
-        } catch (err) {
-          console.error("Failed to check enrollment status");
+    const fetchInitialData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        // 1. Prepare both promises to run in parallel
+        const courseReq = fetch(`${API_URL}/courses/${courseId}`);
+        
+        // Only check enrollment if user is logged in
+        const enrollmentReq = currentUser 
+          ? fetch(`${API_URL}/enrollments?userId=${currentUser.userId}&courseId=${courseId}`, {
+              headers: { 'Authorization': `Bearer ${currentUser.token}` }
+            })
+          : Promise.resolve(null);
+
+        // 2. Execute both calls
+        const [courseRes, enrollmentRes] = await Promise.all([courseReq, enrollmentReq]);
+
+        // 3. Handle Course Data (Critical failure if this fails)
+        if (!courseRes.ok) throw new Error('Course not found');
+        const courseData = await courseRes.json();
+        setCourse(courseData);
+
+        // 4. Handle Enrollment Data (Soft failure - don't break the page if this fails)
+        if (enrollmentRes && enrollmentRes.ok) {
+          const enrollmentData = await enrollmentRes.json();
+          setIsEnrolled(enrollmentData.length > 0);
         }
-      };
-      checkEnrollment();
-    }
-  }, [currentUser, course]);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchInitialData();
+  }, [courseId, currentUser]);
 
   const handleEnroll = async () => {
     if (!currentUser) {
@@ -57,25 +74,6 @@ export default function CourseDetail() {
       console.error("Enrollment failed:", err);
     }
   };
-
-  useEffect(() => {
-    const fetchCourse = async () => {
-      try {
-        const response = await fetch(`${API_URL}/courses/${courseId}`);
-        if (!response.ok) {
-          throw new Error('Course not found');
-        }
-        const data = await response.json();
-        setCourse(data);
-      } catch (err: any) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCourse();
-  }, [courseId]);
 
   if (loading) {
     return <div className="course-detail-container"><p>Loading...</p></div>;

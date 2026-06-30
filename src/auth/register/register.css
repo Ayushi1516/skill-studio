@@ -16,7 +16,7 @@
   align-items: center;
   box-shadow: var(--card-shadow);
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
 }
 
 .form-wrapper .logo {

@@ -6,36 +6,40 @@ import { Toaster } from "react-hot-toast";
 import Layout from "../Components/layout";
 import withAuth from "./withAuth";
 import ErrorBoundary from "../Components/ErrorBoundary";
-const Login = lazy(() => import("../Components/login/login"));
-const Register = lazy(() => import("../Components/register/register"));
+const Login = lazy(() => import("../auth/login/login2"));
+const Register = lazy(() => import("../auth/register/register"));
 const Home = lazy(() => import("../Components/home/home"));
-const Dashboard = lazy(() => import("../Components/dashboard/dashboard"));
-const Admin = lazy(() => import("../Components/admin/admin"));
+const Dashboard = lazy(() => import("../features/dashboard/dashboard"));
+const Admin = lazy(() => import("../features/admin/admin"));
 const CourseDetail = lazy(() => import("../Components/courseDetail/courseDetail"));
-const UserProfile = lazy(() => import("../Components/userProfile/userProfile"));
+const UserProfile = lazy(() => import("../features/dashboard/userProfile/userProfile"));
 
 // Wrap the component with the HOC
 const ProtectedAdmin = withAuth(Admin, "admin");
+const ProtectedDashboard = withAuth(Dashboard);
+const ProtectedUserProfile = withAuth(UserProfile);
 
 const AppRoutes = () => {
     const { currentUser } = useAuth();
 
     return (
         <ErrorBoundary>
-            <Routes>
-                <Route path='/' element={<Layout />}>
-                    <Route index element={<Home />} />
-                    <Route path="dashboard" element={<Dashboard />} />
-                    <Route path="course/:courseId" element={<CourseDetail />} />
-                    {/* Only render the Admin route if the user is an admin */}
-                    {currentUser?.role === "admin" && (
-                        <Route path="admin" element={<ProtectedAdmin />} />
-                    )}
-                    <Route path="profile" element={<UserProfile />} />
-                </Route>
-                <Route path="login" element={<Suspense fallback={<div className="page-container"><h1>Loading...</h1></div>}><Login /></Suspense>} />
-                <Route path="register" element={<Suspense fallback={<div className="page-container"><h1>Loading...</h1></div>}><Register /></Suspense>} />
-            </Routes>
+            <Suspense fallback={<div className="page-container"><h1>Loading...</h1></div>}>
+                <Routes>
+                    <Route path='/' element={<Layout />}>
+                        <Route index element={<Home />} />
+                        <Route path="dashboard" element={<ProtectedDashboard />} />
+                        <Route path="course/:courseId" element={<CourseDetail />} />
+                        {/* Only render the Admin route if the user is an admin */}
+                        {currentUser?.role === "admin" && (
+                            <Route path="admin" element={<ProtectedAdmin />} />
+                        )}
+                        <Route path="profile" element={<ProtectedUserProfile />} />
+                    </Route>
+                    <Route path="login" element={<Login />} />
+                    <Route path="register" element={<Register />} />
+                </Routes>
+            </Suspense>
         </ErrorBoundary>
     );
 };

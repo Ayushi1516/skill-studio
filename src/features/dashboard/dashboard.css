@@ -126,7 +126,6 @@
 }
 
 @media (min-width: 768px) {
-@media (min-width: 768px) {
   /* Switch to a horizontal layout on larger screens */
   .enrolled-course-item {
     flex-direction: row;

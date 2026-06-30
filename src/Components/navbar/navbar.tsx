@@ -31,7 +31,9 @@ export default function NavbarComp() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link as={NavLink} to="/" end>Home</Nav.Link>
-            <Nav.Link as={NavLink} to="/dashboard">Dashboard</Nav.Link>
+            {currentUser && (
+              <Nav.Link as={NavLink} to="/dashboard">Dashboard</Nav.Link>
+            )}
             {currentUser?.role === 'admin' && (
               <Nav.Link as={NavLink} to="/admin">Admin</Nav.Link>)}
             {/* from href page reload, Navlink resolves this issue*/}

@@ -1,9 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
-import "./Login.css";
+// @ts-ignore: CSS module declarations not available in this project
+import './login.css';
 import { useAuth } from '../../context/AuthContext';
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { API_URL } from "../../constants";
+
 
 export default function Login() {
   const navigate = useNavigate();
@@ -39,10 +41,10 @@ export default function Login() {
   return (
     <div className="login-container">
       <div className="login-wrapper">
-        <span className="logo">SkillStudio</span>
+        <span className="font-bold text-center text-3xl">Skill Studio</span>
         <span className="title">Login to your account</span>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="input-group">
+          <div className="input-group rounded-3xl">
             <span className="input-icon">📧</span>
             <input type="email" placeholder="Email" {...register("email", {
               required: 'Email is Required', pattern: {
