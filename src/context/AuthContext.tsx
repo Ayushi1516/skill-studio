@@ -8,6 +8,7 @@ import {
   useCallback,
 } from "react";
 import type { User } from '../types/interfaces';
+import { authEvents } from "../services/auth-events";
 
 interface AuthContextType {
   currentUser: User | null;
@@ -45,6 +46,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [currentUser]);
 //To prevent unnecessary re-renders in components consuming this context, it is best practice to wrap the value object in useMemo and the functions in useCallback.
+
+  // Listen for global logout events triggered by the API interceptor
+  useEffect(() => {
+    const handleLogout = () => {
+      logout();
+    };
+    authEvents.addEventListener('logout', handleLogout);
+    return () => authEvents.removeEventListener('logout', handleLogout);
+  }, [logout]);
+
   const value = useMemo(() => ({ currentUser, login, logout }), [
     currentUser,
     login,

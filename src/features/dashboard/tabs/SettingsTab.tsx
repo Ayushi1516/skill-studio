@@ -1,6 +1,7 @@
-import { API_URL } from "../../constants";
-import { useAuth } from "../../context/AuthContext"
-import { User } from "../../types/interfaces";
+
+import { API_URL } from "../../../constants";
+import { useAuth } from "../../../context/AuthContext";
+import { User } from "../../../types/interfaces";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";

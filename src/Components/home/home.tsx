@@ -1,36 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import CourseCard from "../coursecard/courseCard";
 import "./Home.css";
-import type { CourseSummary } from "../../types/interfaces";
-import { API_URL } from "../../constants";
+import { AppDispatch, RootState } from "../../features/redux/store";
+import { fetchCourses } from "../../features/redux/courseSlice";
 
 export default function Home() {
-  const [courses, setCourses] = useState<CourseSummary[]>([]); // for setting course data
+  const dispatch = useDispatch<AppDispatch>();
+  const { items: courses, status, error } = useSelector((state: RootState) => state.course);
   const [searchQuery, setSearchQuery] = useState(""); // for filtering courseList
-  const [loading, setLoading] = useState<boolean>(true); // for delaying in response
-  const [error, setError] = useState<string | null>(null); // for error handling
 
   useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const response = await fetch(`${API_URL}/courses`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        setCourses(data);
-      } catch (error: any) {
-        setError(error.message);
-        console.error("Failed to fetch courses:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    // We only want to fetch courses if they haven't been fetched yet.
+    if (status === 'idle') {
+      dispatch(fetchCourses());
+    }
+  }, [status, dispatch]);
 
-    fetchCourses();
-  }, []);
+  const filteredCourses = useMemo(() => 
+    courses.filter((course:any) => 
+      course.name.toLowerCase().includes(searchQuery.toLowerCase())
+    ), [courses, searchQuery]);
 
-  const filteredCourses = courses.filter((course) => course.name.toLowerCase().includes(searchQuery.toLowerCase()));
+  const isLoading = status === 'loading' || status === 'idle';
 
   return (
     <>
@@ -46,9 +38,9 @@ export default function Home() {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
         </div>
-        {loading && <p>Loading courses...</p>}
+        {isLoading && <p>Loading courses...</p>}
         {error && <p>Error: {error}</p>}
-        {!loading && !error && <CourseCard courseData={filteredCourses} />}
+        {!isLoading && !error && <CourseCard courseData={filteredCourses} />}
       </div>
     </>
   );

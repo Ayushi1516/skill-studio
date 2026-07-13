@@ -1,10 +1,10 @@
 import toast from "react-hot-toast";
-import { API_URL } from "../../constants";
 import { useAuth } from "../../context/AuthContext";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import EnrolledCourseCard from "./EnrolledCourseCard";
 import { Enrollment } from "../../types/interfaces";
+import { getEnrollmentsByUserId, updateEnrollmentProgress } from "../../services/api";
 
 const UserEnrolledCourses = () => {
   const { currentUser } = useAuth();
@@ -16,14 +16,8 @@ const UserEnrolledCourses = () => {
     if (currentUser) {
       const fetchEnrolledCourses = async () => {
         try {
-          const res = await fetch(`${API_URL}/enrollments/?userId=${currentUser.userId}`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${currentUser?.token}`
-            },
-          });
-          const data = await res.json();
+          const response = await getEnrollmentsByUserId(currentUser.userId);
+          const data = response.data;
           const enrollmentsWithData = data.map((e: Enrollment) => {
             // Safely parse completedChapters if it comes as a string from the API
             let completed = e.completedChapters;
@@ -60,15 +54,7 @@ const UserEnrolledCourses = () => {
 
     try {
       // Send the update to the server
-      await fetch(`${API_URL}/enrollments/${enrollmentId}`, {
-        method: 'PATCH', //update
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${currentUser?.token}`
-        },
-        body: JSON.stringify({ completedChapters: newCompletedChapters }),
-
-      });
+      await updateEnrollmentProgress(enrollmentId, newCompletedChapters);
     } catch (error) {
       // If the server update fails, roll back the UI change and notify the user
       setEnrollments(originalEnrollments);

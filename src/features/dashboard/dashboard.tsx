@@ -1,14 +1,15 @@
 import { useState, useEffect, useCallback } from 'react';
 // @ts-ignore: CSS module declarations not available in this project
 import './Dashboard.css';
-import SettingsTab from './SettingsTab';
-import HelpTab from './HelpTab';
-import MyCoursesTab from './MyCoursesTab';
+import HelpTab from './tabs/HelpTab';
 import { useAuth } from '../../context/AuthContext';
-import UserListTab from './UserListTab';
+
 import { User } from '../../types/interfaces';
 import { API_URL } from '../../constants';
 import toast from 'react-hot-toast';
+import MyCoursesTab from './tabs/MyCoursesTab';
+import SettingsTab from './tabs/SettingsTab';
+import UserListTab from './tabs/UserListTab';
 
 export default function Dashboard() {
   const {currentUser} = useAuth();

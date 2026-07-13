@@ -1,8 +1,14 @@
 import { API_URL } from "../../constants";
 import { useAuth } from "../../context/AuthContext";
-import { useForm } from "react-hook-form";
+import { useForm, type FieldValues } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+
+// Define a type for your form data for better type safety
+interface LoginFormInputs extends FieldValues {
+  email: string;
+  password: string;
+}
 
 const Login = () => {
   const navigate = useNavigate();
@@ -11,9 +17,9 @@ const Login = () => {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm();
+  } = useForm<LoginFormInputs>();
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: LoginFormInputs) => {
     const loadingToast = toast.loading("Logging in...");
     try {
       const res = await fetch(`${API_URL}/login`, {

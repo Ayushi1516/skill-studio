@@ -1,13 +1,14 @@
+import { useAuth } from "../../../context/AuthContext";
+import InstructorCourses from "../../instructor/InstructorCourses";
+import UserEnrolledCourses from "../../user/UserEnrolledCourses";
+import { Link } from "react-router-dom";
 
-import { useAuth } from "../../context/AuthContext";
-import { Link} from "react-router-dom";
-import UserEnrolledCourses from "./UserEnrolledCourses";
-import InstructorCourses from "./InstructorCourses";
+
 
 const MyCoursesTab = () => {
   const { currentUser } = useAuth();
 
-  if(!currentUser){
+  if(!currentUser) {
   return (
       <div className="dashboard-container">
         <h1>Please login to see your dashboard</h1><p><Link to="/login">Login</Link></p>

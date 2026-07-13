@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import './CourseDetail.css';
 import { useAuth } from '../../context/AuthContext';
 import type { Course } from '../../types/interfaces';
-import { API_URL } from '../../constants';
+import { getCourse, checkEnrollment, enrollInCourse } from '../../services/api';
 
 export default function CourseDetail() {
   const { courseId } = useParams<{ courseId: string }>();
@@ -19,28 +19,21 @@ export default function CourseDetail() {
       setLoading(true);
       setError(null);
       try {
-        // 1. Prepare both promises to run in parallel
-        const courseReq = fetch(`${API_URL}/courses/${courseId}`);
-        
-        // Only check enrollment if user is logged in
-        const enrollmentReq = currentUser 
-          ? fetch(`${API_URL}/enrollments?userId=${currentUser.userId}&courseId=${courseId}`, {
-              headers: { 'Authorization': `Bearer ${currentUser.token}` }
-            })
-          : Promise.resolve(null);
+        // 1. Fetch course details using the API service
+        const courseResponse = await getCourse(courseId);
+        setCourse(courseResponse.data);
 
-        // 2. Execute both calls
-        const [courseRes, enrollmentRes] = await Promise.all([courseReq, enrollmentReq]);
-
-        // 3. Handle Course Data (Critical failure if this fails)
-        if (!courseRes.ok) throw new Error('Course not found');
-        const courseData = await courseRes.json();
-        setCourse(courseData);
-
-        // 4. Handle Enrollment Data (Soft failure - don't break the page if this fails)
-        if (enrollmentRes && enrollmentRes.ok) {
-          const enrollmentData = await enrollmentRes.json();
-          setIsEnrolled(enrollmentData.length > 0);
+        // 2. If user is logged in, check their enrollment status
+        if (currentUser) {
+          try {
+            const enrollmentResponse = await checkEnrollment(currentUser.userId, courseId);
+            setIsEnrolled(enrollmentResponse.data.length > 0);
+          } catch (enrollmentError) {
+            // Don't break the page if only the enrollment check fails.
+            // The global interceptor will handle 401s.
+            console.error("Failed to check enrollment status:", enrollmentError);
+            // You could optionally show a small, non-blocking warning to the user.
+          }
         }
       } catch (err: any) {
         setError(err.message);
@@ -60,16 +53,8 @@ export default function CourseDetail() {
     if (!course || isEnrolled) return;
 
     try {
-      const res = await fetch(`${API_URL}/enrollments`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' , 'Authorization': `Bearer ${currentUser?.token}`},
-        body: JSON.stringify({
-          userId: currentUser.userId,
-          courseId: course.courseId,
-          completedChapters: []
-        }),
-      });
-      if (res.ok) setIsEnrolled(true);
+      await enrollInCourse(currentUser.userId, course.courseId);
+      setIsEnrolled(true);
     } catch (err) {
       console.error("Enrollment failed:", err);
     }

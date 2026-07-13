@@ -1,10 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 // @ts-ignore: CSS module declarations not available in this project
 import './login.css';
-import { useAuth } from '../../context/AuthContext';
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { API_URL } from "../../constants";
+import { useAuth } from "../../context/AuthContext";
+import { loginUser } from "../../services/api";
 
 
 export default function Login() {
@@ -15,17 +16,11 @@ export default function Login() {
   const onSubmit = async (data: any) => {
     const loadingToast = toast.loading("Logging in...");
     try {
-      const res = await fetch(`${API_URL}/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: data.email, password: data.password }),
-      });
+      const res = await loginUser(data);
       toast.dismiss(loadingToast);
-      const userData = await res.json();
+      const userData = res.data;
       
-      if (res.ok && userData.token) {
+      if (userData.token) {
         authLogin(userData);
         toast.success(`Welcome back, ${userData.displayName}!`);
         navigate('/');
